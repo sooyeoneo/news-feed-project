@@ -42,4 +42,7 @@ public class LoginFilter implements Filter {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURL);
     }
 
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.newsfeedproject.entity.user;
 
 import com.example.newsfeedproject.entity.BaseEntity;
+import com.example.newsfeedproject.entity.friend.Friend;
+import com.example.newsfeedproject.entity.post.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
