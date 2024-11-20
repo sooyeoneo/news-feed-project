@@ -3,11 +3,13 @@ package com.example.newsfeedproject.entity.user;
 import com.example.newsfeedproject.entity.BaseEntity;
 import com.example.newsfeedproject.entity.friend.Friend;
 import com.example.newsfeedproject.entity.post.Post;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -30,14 +32,16 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String age;
 
-    public User(String userName, String email, String password) {
+    public User() {}
+
+    public User(String userName, String email, String password, String age) {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.age = age;
     }
 
-    public User() {
-
+    public void updatePassword(String password) {
+        this.password = password;
     }
-
 }
