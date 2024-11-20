@@ -32,11 +32,6 @@ public class FriendController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<FriendResDto>> findAllFriends(){
-        return new ResponseEntity<>(friendService.findAllFriends(),HttpStatus.OK);
-    }
-
     @DeleteMapping
     public ResponseEntity<Void> deleteFriend(@RequestBody DeleteFriendRequestDto deleteFriendRequestDto){
         friendService.deleteFriend(deleteFriendRequestDto);

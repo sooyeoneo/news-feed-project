@@ -1,12 +1,14 @@
 package com.example.newsfeedproject.dto.friend;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
 
+@Getter
 public class DeleteFriendRequestDto {
-    private String username;
+    private Long fromUserId;
+    private Long toUserId;
 
-    @JsonCreator
-    public DeleteFriendRequestDto(String username){
-        this.username = username;
+    public DeleteFriendRequestDto(Long fromUserid, Long toUserid){
+        this.fromUserId = fromUserid;
+        this.toUserId = toUserid;
     }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface FriendService {
     SendFriendResponseDto sendFriend(SendFriendRequestDto sendFriendRequestDto);
-    List<FriendResDto> findAllFriends();
     void deleteFriend(DeleteFriendRequestDto deleteFriendRequestDto);
     void acceptFriend(AcceptFriendRequestDto acceptFriendRequestDto);
 

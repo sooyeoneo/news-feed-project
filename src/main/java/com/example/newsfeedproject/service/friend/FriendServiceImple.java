@@ -19,6 +19,7 @@ public class FriendServiceImple implements FriendService{
     private final FriendRepository friendRepository;
     private final UserRepository userRepository;
 
+    //친구신청 중복검사필요 (중복된 친구신청 x)
     @Override
     public SendFriendResponseDto sendFriend(SendFriendRequestDto dto) {
 
@@ -58,13 +59,16 @@ public class FriendServiceImple implements FriendService{
     }
 
     @Override
-    public List<FriendResDto> findAllFriends() {
-        return List.of();
-    }
+    public void deleteFriend(DeleteFriendRequestDto dto) {
+        Friend friend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getFromUserId(),dto.getToUserId(),true);
+        Friend reverseFriend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getToUserId(), dto.getFromUserId(), true);
 
-    @Override
-    public void deleteFriend(DeleteFriendRequestDto deleteFriendRequestDto) {
+        if (friend == null || reverseFriend == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"친구가 존재하지 않습니다");    //존재하지 않을 시 예외처리
+        }
 
+        friendRepository.delete(friend);
+        friendRepository.delete(reverseFriend);
     }
 
 }
