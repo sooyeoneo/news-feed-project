@@ -17,11 +17,19 @@ public class FriendController {
 
     private final FriendService friendService;
 
+    //로그인 세션 구현시 세션에서 로그인한 유저의 정보를 전달하는 방식으로 변경 예정
+    //현재는 dto에서 toUserId를 함께 전달하는 중
+
     @PostMapping
     public ResponseEntity<SendFriendResponseDto> sendFriend(@RequestBody SendFriendRequestDto sendFriendRequestDto) {
-        // Service 호출하여 친구 요청 처리
         SendFriendResponseDto responseDto = friendService.sendFriend(sendFriendRequestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);  // 성공적으로 처리된 경우 201 응답
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/accept")
+    public ResponseEntity<Void> acceptFriend(@RequestBody AcceptFriendRequestDto acceptFriendRequestDto){
+        friendService.acceptFriend(acceptFriendRequestDto);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping

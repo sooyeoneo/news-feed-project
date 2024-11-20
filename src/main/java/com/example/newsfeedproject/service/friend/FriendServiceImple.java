@@ -1,9 +1,6 @@
 package com.example.newsfeedproject.service.friend;
 
-import com.example.newsfeedproject.dto.friend.DeleteFriendRequestDto;
-import com.example.newsfeedproject.dto.friend.FriendResDto;
-import com.example.newsfeedproject.dto.friend.SendFriendRequestDto;
-import com.example.newsfeedproject.dto.friend.SendFriendResponseDto;
+import com.example.newsfeedproject.dto.friend.*;
 import com.example.newsfeedproject.entity.friend.Friend;
 import com.example.newsfeedproject.entity.user.User;
 import com.example.newsfeedproject.repository.friend.FriendRepository;
@@ -13,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +41,23 @@ public class FriendServiceImple implements FriendService{
     }
 
     @Override
+    public void acceptFriend(AcceptFriendRequestDto dto) {
+        //요청 보내는 사람 -> 받는 사람을 DB에서 찾아 friend에 저장
+        Friend friend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getFromUserId(),dto.getToUserId(),false);
+        //요청 받는 사람 -> 보내는 사람 DB에서 찾아 reversFriend에 저장 (역방향)
+        Friend reverseFriend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getToUserId(), dto.getFromUserId(), false);
+        if (friend == null || reverseFriend == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"친구신청이 존재하지 않습니다.");    //존재하지 않을 시 예외처리
+        }
+        //정방향, 역방향 둘다 areWeFriend를 true 로 변경
+        friend.setAreWeFriend(true);
+        reverseFriend.setAreWeFriend(true);
+        //정방향, 역방향 변경점을 저장
+        friendRepository.save(friend);
+        friendRepository.save(reverseFriend);
+    }
+
+    @Override
     public List<FriendResDto> findAllFriends() {
         return List.of();
     }
@@ -52,4 +66,5 @@ public class FriendServiceImple implements FriendService{
     public void deleteFriend(DeleteFriendRequestDto deleteFriendRequestDto) {
 
     }
+
 }
