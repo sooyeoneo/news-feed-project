@@ -13,7 +13,6 @@ public class SignUpResponseDto {
 
     private final String email;
 
-
     private final String age;
 
     private final LocalDateTime createTime;
