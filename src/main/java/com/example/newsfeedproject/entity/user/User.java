@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -36,11 +36,11 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String age;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Friend> friends = new ArrayList<>();
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    private List<Post> posts = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    private List<Friend> friends = new ArrayList<>();
 
     public User(String userName, String email, String password) {
         this.userName = userName;
