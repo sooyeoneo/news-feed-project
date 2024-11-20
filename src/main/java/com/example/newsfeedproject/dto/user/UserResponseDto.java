@@ -14,7 +14,6 @@ public class UserResponseDto {
 
     private final String age;
 
-
     public UserResponseDto(Long id, String userName, String email, String age) {
         this.id = id;
         this.userName = userName;
