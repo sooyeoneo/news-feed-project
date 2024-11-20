@@ -17,6 +17,7 @@ import java.io.IOException;
 public class LoginFilter implements Filter {
     private static final String[] WHITE_LIST = {"/","users/signup","users/login","users/logout"};
 
+    @Override
     public void doFilter(
             ServletRequest servletRequest,
             ServletResponse servletResponse,
