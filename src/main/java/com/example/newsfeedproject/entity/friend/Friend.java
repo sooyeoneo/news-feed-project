@@ -37,7 +37,7 @@ public class Friend extends BaseEntity {
 
     @Setter
     @OneToMany
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Friend(Long fromUserId, Long toUserId, Byte areWeFriend) {
