@@ -83,7 +83,7 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //좋아요 기능
+    // 좋아요 기능
     @PostMapping("/{id}")
     public ResponseEntity<Void> likePost(@PathVariable Long id, HttpServletRequest request){
         HttpSession session = request.getSession(false);
