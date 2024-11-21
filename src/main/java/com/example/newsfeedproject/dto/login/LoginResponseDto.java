@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class LoginResponseDto {
 
-    private final String userName;
+    private String userName;
 
     public LoginResponseDto(String userName) {
         this.userName = userName;

@@ -34,7 +34,7 @@ public class LoginController {
         LoginResponseDto loginResponseDto = loginServiceImpl.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
         String email = loginResponseDto.getUserName();
 
-        HttpSession httpSession = servletRequest.getSession();
+        HttpSession httpSession = servletRequest.getSession(true);
         LoginResponseDto loginUser = loginServiceImpl.findUserByEmail(email);
 
         httpSession.setAttribute("LOGIN_USER", loginResponseDto);
