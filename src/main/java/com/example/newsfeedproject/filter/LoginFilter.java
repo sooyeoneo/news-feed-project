@@ -1,5 +1,6 @@
 package com.example.newsfeedproject.filter;
 
+import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,8 +34,20 @@ public class LoginFilter implements Filter {
         if (!isWhiteList(requestURL)) {
             HttpSession session = httpServletRequest.getSession(false);
 
-            if (session == null || session.getAttribute(LOGIN_USER) == null) {
-                throw new RuntimeException("로그인 해주세요");
+            if (session == null || session.getAttribute("LOGIN_USER") == null) {
+                log.warn("Unauthorized access attempt to {}", requestURL);
+                httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                httpServletResponse.getWriter().write("로그인 해주세요");
+                return;
+            }
+
+            // 세션에 저장된 객체가 LoginResponseDto인지 확인
+            LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+            if (loginUser == null) {
+                log.warn("Invalid session data for {}", requestURL);
+                httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                httpServletResponse.getWriter().write("로그인 해주세요");
+                return;
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
@@ -43,5 +56,4 @@ public class LoginFilter implements Filter {
     private boolean isWhiteList(String requestURL) {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURL);
     }
-
 }
