@@ -32,7 +32,7 @@ public class Post extends BaseEntity {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Post() {}

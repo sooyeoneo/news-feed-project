@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
+
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
@@ -25,15 +27,19 @@ public class LoginController {
     private final LoginServiceImpl loginServiceImpl;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletRequest servletRequest) {
+    public ResponseEntity<LoginResponseDto> login(
+            @Valid @RequestBody LoginRequestDto loginRequestDto,
+            HttpServletRequest servletRequest
+    ) {
         LoginResponseDto loginResponseDto = loginServiceImpl.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
         String email = loginResponseDto.getUserName();
 
-        HttpSession httpSession = servletRequest.getSession();
+        HttpSession httpSession = servletRequest.getSession(true);
         LoginResponseDto loginUser = loginServiceImpl.findUserByEmail(email);
-        httpSession.setAttribute("LOGIN_USER", loginUser);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        httpSession.setAttribute("LOGIN_USER", loginResponseDto);
+
+        return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
 
     @PostMapping("/logout")
