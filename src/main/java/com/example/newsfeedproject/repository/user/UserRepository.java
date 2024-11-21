@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         return findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "id가 존재하지 않습니다."
+                                "사용자가 존재하지 않습니다."
                         )
                 );
     }
@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 .orElseThrow(() ->
                         new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
-                                userName + "이 없습니다."
+                                "사용자가 존재하지 않습니다."
                         )
                 );
     }
