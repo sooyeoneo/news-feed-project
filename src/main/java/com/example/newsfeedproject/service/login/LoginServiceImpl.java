@@ -28,7 +28,7 @@ public class LoginServiceImpl implements LoginService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 email 입니다. ");
         }
         User findUser = optionalUser.get();
-        return new LoginResponseDto(findUser.getUserName());
+        return new LoginResponseDto(findUser.getUserName(),findUser.getId());
     }
 
     // 비밀번호 일치 여부 확인
@@ -48,6 +48,6 @@ public class LoginServiceImpl implements LoginService {
         if (!passwordEncoder.matches(password, findUser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀 번호가 일치하지 않습니다.");
         }
-        return new LoginResponseDto(findUser.getEmail());
+        return new LoginResponseDto(findUser.getEmail(),findUser.getId());
     }
 }

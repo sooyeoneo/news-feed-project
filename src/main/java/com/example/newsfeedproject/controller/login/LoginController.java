@@ -25,7 +25,7 @@ public class LoginController {
     private final LoginServiceImpl loginServiceImpl;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletRequest servletRequest) {
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletRequest servletRequest) {
         LoginResponseDto loginResponseDto = loginServiceImpl.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
         String email = loginResponseDto.getUserName();
 
@@ -33,7 +33,7 @@ public class LoginController {
         LoginResponseDto loginUser = loginServiceImpl.findUserByEmail(email);
         httpSession.setAttribute("LOGIN_USER", loginUser);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(loginUser,HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/logout")
