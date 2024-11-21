@@ -19,8 +19,6 @@ import java.util.Optional;
 public class LoginServiceImpl implements LoginService {
 
     private final LoginRepository loginRepository;
-    private final UserRepository userRepository;
-    private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
 
     public LoginResponseDto findUserByEmail(String email) {
