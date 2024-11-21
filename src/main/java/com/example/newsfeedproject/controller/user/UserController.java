@@ -1,10 +1,14 @@
 package com.example.newsfeedproject.controller.user;
 
+import com.example.newsfeedproject.config.PasswordEncoder;
+import com.example.newsfeedproject.dto.user.DeleteUserRequestDto;
 import com.example.newsfeedproject.dto.user.SignUpRequestDto;
 import com.example.newsfeedproject.dto.user.SignUpResponseDto;
 import com.example.newsfeedproject.dto.user.UpdatePasswordRequestDto;
 import com.example.newsfeedproject.dto.user.UserResponseDto;
 import com.example.newsfeedproject.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +29,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto) {
@@ -54,10 +59,13 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @RequestBody DeleteUserRequestDto dto, HttpServletRequest servletRequest) {
 
-        userService.deleteUser(id);
-
+        userService.deleteUser(id, dto.getPassword());
+        HttpSession httpSession = servletRequest.getSession(false);
+        if (httpSession != null) {
+            httpSession.invalidate();
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
