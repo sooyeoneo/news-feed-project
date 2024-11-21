@@ -12,4 +12,6 @@ public interface PostService {
     PostResponseDto updatePost(Long id, String title, String contents);
 
     void deletePost(Long id);
+
+    Page<PostResponseDto> findFriendPost(int page, int size, Long userId, Long friendId);
 }

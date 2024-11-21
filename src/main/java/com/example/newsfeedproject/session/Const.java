@@ -1,5 +1,5 @@
 package com.example.newsfeedproject.session;
 
-public class Const {
-    public static final String LOGIN_USER = "login";
+public interface Const {
+    String LOGIN_USER = "LOGIN_USER";
 }

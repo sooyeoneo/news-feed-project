@@ -13,5 +13,5 @@ public interface UserService {
 
     void updatePassword(Long id, String oldPassword, String newPassword);
 
-    void deleteUser(Long id);
+    void deleteUser(Long id, String password);
 }

@@ -8,5 +8,4 @@ public interface FriendService {
     SendFriendResponseDto sendFriend(SendFriendRequestDto sendFriendRequestDto);
     void deleteFriend(DeleteFriendRequestDto deleteFriendRequestDto);
     void acceptFriend(AcceptFriendRequestDto acceptFriendRequestDto);
-
 }
