@@ -18,6 +18,7 @@ import static com.example.newsfeedproject.session.Const.LOGIN_USER;
 
 @Slf4j
 public class LoginFilter implements Filter {
+
     private static final String[] WHITE_LIST = {"/","/users/signup","/login","/logout"};
 
     @Override
