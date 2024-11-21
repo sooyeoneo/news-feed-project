@@ -5,7 +5,6 @@ import com.example.newsfeedproject.dto.post.CreatePostRequestDto;
 import com.example.newsfeedproject.dto.post.FriendPostsReqestDto;
 import com.example.newsfeedproject.dto.post.PostResponseDto;
 import com.example.newsfeedproject.dto.post.UpdatePostRequestDto;
-import com.example.newsfeedproject.entity.post.Post;
 import com.example.newsfeedproject.service.post.PostService;
 import com.example.newsfeedproject.session.Const;
 import jakarta.servlet.http.HttpServletRequest;
@@ -86,11 +85,11 @@ public class PostController {
 
     //좋아요 기능
     @PostMapping("/{id}")
-    public ResponseEntity<Void> likePost(@PathVariable Long postId, HttpServletRequest request){
+    public ResponseEntity<Void> likePost(@PathVariable Long id, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         LoginResponseDto loginResponseDto = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
 
-        postService.likePost(loginResponseDto.getUserId(),postId);
+        postService.likePost(loginResponseDto.getUserId(), id);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
