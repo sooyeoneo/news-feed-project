@@ -30,13 +30,6 @@ public class Friend extends BaseEntity {
     @JoinColumn(name = "toUserId", nullable = false)
     private User toUser;
 
-    @JoinColumn(nullable = false)
-    private Long fromUser;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Long toUser;
-
     @Column(nullable = false)
     private boolean areWeFriend;
 

@@ -1,6 +1,7 @@
 package com.example.newsfeedproject.controller.post;
 
 import com.example.newsfeedproject.dto.post.CreatePostRequestDto;
+import com.example.newsfeedproject.dto.post.FriendPostsReqestDto;
 import com.example.newsfeedproject.dto.post.PostResponseDto;
 import com.example.newsfeedproject.dto.post.UpdatePostRequestDto;
 import com.example.newsfeedproject.service.post.PostService;
@@ -46,6 +47,20 @@ public class PostController {
         Page<PostResponseDto> postResponseDtoPage = postService.findAllPost(page, size);
 
         return new ResponseEntity<>(postResponseDtoPage, HttpStatus.OK);
+    }
+
+    //친구의 id, 유저의 id를 리퀘스트 바디로 받음 ( 로그인 기능 구현시 수정 )
+    @GetMapping("/friends")
+    public ResponseEntity<Page<PostResponseDto>> friendPost(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestBody FriendPostsReqestDto friendPostsReqestDto
+    ){
+
+        Page<PostResponseDto> friendPostsDto = postService.findFriendPost(
+                page,size,friendPostsReqestDto.getUserId(),friendPostsReqestDto.getFriendId());
+
+        return new ResponseEntity<>(friendPostsDto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
