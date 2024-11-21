@@ -1,6 +1,5 @@
 package com.example.newsfeedproject.dto.post;
 
-import com.example.newsfeedproject.entity.post.Post;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,9 +25,5 @@ public class PostResponseDto {
         this.contents = contents;
         this.createTime = createTime;
         this.updateTime = updateTime;
-    }
-
-    public static PostResponseDto toDto(Post post) {
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime());
     }
 }

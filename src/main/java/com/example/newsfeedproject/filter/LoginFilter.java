@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @Slf4j
 public class LoginFilter implements Filter {
-    private static final String[] WHITE_LIST = {"/","users/signup","users/login","users/logout"};
+    private static final String[] WHITE_LIST = {"/","/users/signup","/users/login","/users/logout"};
 
     @Override
     public void doFilter(
@@ -40,9 +40,5 @@ public class LoginFilter implements Filter {
 
     private boolean isWhiteList(String requestURL) {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURL);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
     }
 }
