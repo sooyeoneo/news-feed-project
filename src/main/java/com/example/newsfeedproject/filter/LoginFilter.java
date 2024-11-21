@@ -13,9 +13,11 @@ import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
 
+import static com.example.newsfeedproject.session.Const.LOGIN_USER;
+
 @Slf4j
 public class LoginFilter implements Filter {
-    private static final String[] WHITE_LIST = {"/","users/signup","users/login","users/logout"};
+    private static final String[] WHITE_LIST = {"/","/users/signup","/login","/logout"};
 
     @Override
     public void doFilter(
@@ -23,7 +25,7 @@ public class LoginFilter implements Filter {
             ServletResponse servletResponse,
             FilterChain filterChain
     ) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletResponse;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String requestURL = httpServletRequest.getRequestURI();
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
@@ -31,7 +33,7 @@ public class LoginFilter implements Filter {
         if (!isWhiteList(requestURL)) {
             HttpSession session = httpServletRequest.getSession(false);
 
-            if (session == null || session.getAttribute("LOGIN_USER") == null) {
+            if (session == null || session.getAttribute(LOGIN_USER) == null) {
                 throw new RuntimeException("로그인 해주세요");
             }
         }
@@ -42,7 +44,4 @@ public class LoginFilter implements Filter {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURL);
     }
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-    }
 }
