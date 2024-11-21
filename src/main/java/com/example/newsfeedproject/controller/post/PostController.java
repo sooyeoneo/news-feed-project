@@ -1,10 +1,15 @@
 package com.example.newsfeedproject.controller.post;
 
+import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import com.example.newsfeedproject.dto.post.CreatePostRequestDto;
 import com.example.newsfeedproject.dto.post.FriendPostsReqestDto;
 import com.example.newsfeedproject.dto.post.PostResponseDto;
 import com.example.newsfeedproject.dto.post.UpdatePostRequestDto;
+import com.example.newsfeedproject.entity.post.Post;
 import com.example.newsfeedproject.service.post.PostService;
+import com.example.newsfeedproject.session.Const;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -77,5 +82,17 @@ public class PostController {
         postService.deletePost(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //좋아요 기능
+    @PostMapping("/{id}")
+    public ResponseEntity<Void> likePost(@PathVariable Long postId, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginResponseDto = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
+
+        postService.likePost(loginResponseDto.getUserId(),postId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

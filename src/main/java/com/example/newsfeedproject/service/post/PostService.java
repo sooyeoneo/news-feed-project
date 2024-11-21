@@ -14,4 +14,6 @@ public interface PostService {
     void deletePost(Long id);
 
     Page<PostResponseDto> findFriendPost(int page, int size, Long userId, Long friendId);
+
+    void likePost(Long userId, Long postId);
 }
