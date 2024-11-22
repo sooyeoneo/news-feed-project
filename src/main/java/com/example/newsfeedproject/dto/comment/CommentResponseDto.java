@@ -1,6 +1,7 @@
 package com.example.newsfeedproject.dto.comment;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -8,16 +9,17 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
 
     //댓글 id
-    private Long comment_Id;
+    private final Long comment_Id;
 
     //댓글 작성자
-    private String writer;
+    private final String writer;
 
     //댓글 내용
-    private String comment;
+    private final String comment;
 
-    private LocalDateTime createdTime;
+    private final LocalDateTime createdTime;
 
+    @Setter
     private LocalDateTime updatedTime;
 
     public CommentResponseDto(Long id, String writer, String comment, LocalDateTime createdTime, LocalDateTime updatedTime) {

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class DeleteFriendRequestDto {
-    private Long toUserId;
+    private final Long toUserId;
 
     public DeleteFriendRequestDto(Long toUserid){
         this.toUserId = toUserid;

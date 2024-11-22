@@ -14,8 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +71,7 @@ public class PostServiceImpl implements PostService{
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createTime"));
 
         if (!friendRepository.existsByFromUserIdAndToUserId(userId, friendId)) {
-            throw new RuntimeException("친구 관계가 아닙니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "친구 관계가 아닙니다.");
         }
 
         User friendUser = userRepository.findUserByIdOrElseThrow(friendId);
@@ -94,7 +96,7 @@ public class PostServiceImpl implements PostService{
 
         //게시물의 작성자는 좋아요를 누를 수 없게 생성
         if(post.getUser().getId().equals(userId)) {
-            throw new RuntimeException("게시물의 작성자는 좋아요를 누를 수 없습니다.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "게시물의 작성자는 좋아요를 누를 수 없습니다.");
         }
 
         if(already) {       //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
@@ -119,7 +121,7 @@ public class PostServiceImpl implements PostService{
 
         //세션값 검증
         if(!post.getUser().getId().equals(userId)) {
-            throw new RuntimeException("작성자만 수정할 수 있습니다.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "작성자만 수정할 수 있습니다.");
         }
         post.updatePost(title, contents);
 
@@ -140,7 +142,7 @@ public class PostServiceImpl implements PostService{
 
         //세션값 검증
         if(!post.getUser().getId().equals(userId)) {
-            throw new RuntimeException("작성자만 삭제할 수 있습니다.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "작성자만 삭제할 수 있습니다.");
         }
 
         postRepository.delete(post);
