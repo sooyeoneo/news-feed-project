@@ -2,8 +2,10 @@ package com.example.newsfeedproject.service.comment;
 
 import com.example.newsfeedproject.dto.comment.CommentResponseDto;
 import com.example.newsfeedproject.entity.comment.Comment;
+import com.example.newsfeedproject.entity.like.Like;
 import com.example.newsfeedproject.entity.post.Post;
 import com.example.newsfeedproject.entity.user.User;
+import com.example.newsfeedproject.repository.LikeRepository;
 import com.example.newsfeedproject.repository.comment.CommentRepository;
 import com.example.newsfeedproject.repository.post.PostRepository;
 import com.example.newsfeedproject.repository.user.UserRepository;
@@ -23,6 +25,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
 
     //댓글 생성
     public CommentResponseDto createComment(Long postId, Long userId, String comment) {
@@ -40,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
                 setcomment.getId(),
                 setcomment.getUser().getUserName(),
                 setcomment.getComment(),
+                setcomment.getCountLike(),
                 setcomment.getCreateTime(),
                 setcomment.getUpdateTime());
     }
@@ -55,6 +59,7 @@ public class CommentServiceImpl implements CommentService {
                 comment.getId(),
                 comment.getUser().getUserName(),
                 comment.getComment(),
+                comment.getCountLike(),
                 comment.getCreateTime(),
                 comment.getUpdateTime()));
     }
@@ -74,6 +79,7 @@ public class CommentServiceImpl implements CommentService {
                 setcomment.getId(),
                 setcomment.getUser().getUserName(),
                 setcomment.getComment(),
+                setcomment.getCountLike(),
                 setcomment.getCreateTime(),
                 setcomment.getUpdateTime());
     }
@@ -88,5 +94,26 @@ public class CommentServiceImpl implements CommentService {
         }
 
         commentRepository.delete(setcomment);
+    }
+
+    //댓글 좋아요
+    @Transactional
+    public void likeComment(Long userId, Long commentId) {
+        boolean already = likeRepository.existsByUserIdAndCommentId(userId,commentId);
+        Comment comment = commentRepository.findCommentByCommentIdOrElseThrow(commentId);
+
+        //댓글의 작성자는 좋아요를 누를 수 없게 생성
+        if(comment.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "댓글 작성자는 좋아요를 누를 수 없습니다.");
+        }
+
+        if(already) {       //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
+            likeRepository.deleteByUserIdAndCommentId(userId, commentId);
+            comment.minusLike();
+        } else {            //already가 false라면 좋아요를 누르지 않은 사용자이기 때문에 좋아요 기록을 추가하고 카운트 +1
+            Like like = new Like().commentLike(userId, commentId);
+            likeRepository.save(like);
+            comment.plusLike();
+        }
     }
 }

@@ -61,11 +61,17 @@ public class UserServiceImpl implements UserService {
 
         User findUser = userRepository.findUserByIdOrElseThrow(id);
 
+        //기존 비밀번호 불일치 시 변경 불가
         if(!passwordEncoder.matches(oldPassword, findUser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
+        //새로운 비밀번호의 형식이 조건에 맞지 않을 시 변경 불가
         if(!passwordValidation.isValidPassword(newPassword)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호 형식이 다릅니다.");
+        }
+        //기존 비밀번호와 변경하는 비밀번호가 동일할 시 변경 불가
+        if(!passwordEncoder.matches(newPassword, findUser.getPassword())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "같은 비밀번호로 변경할 수 없습니다.");
         }
 
         findUser.updatePassword(passwordEncoder.encode(newPassword));

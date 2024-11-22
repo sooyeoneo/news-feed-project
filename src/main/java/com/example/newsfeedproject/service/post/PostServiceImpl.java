@@ -101,12 +101,10 @@ public class PostServiceImpl implements PostService{
         if(already) {       //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
             likeRepository.deleteByUserIdAndPostId(userId, postId);
             post.minusLike();
-            postRepository.save(post);
         } else {            //already가 false라면 좋아요를 누르지 않은 사용자이기 때문에 좋아요 기록을 추가하고 카운트 +1
-            Like like = new Like(userId,postId);
+            Like like = new Like().postLike(userId, postId);
             likeRepository.save(like);
             post.plusLike();
-            postRepository.save(post);
         }
     }
 
