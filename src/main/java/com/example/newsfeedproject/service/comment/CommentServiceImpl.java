@@ -87,7 +87,7 @@ public class CommentServiceImpl implements CommentService {
     //댓글 삭제
     public void deleteComment(Long userId, Long commentId) {
 
-        Comment setcomment = commentRepository.findCommentByCommentIdOrElseThrow(userId);
+        Comment setcomment = commentRepository.findCommentByCommentIdOrElseThrow(commentId);
 
         if(!setcomment.getUser().getId().equals(userId) && !setcomment.getPost().getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "피드의 작성자나 댓글의 작성자만 삭제할 수 있습니다.");

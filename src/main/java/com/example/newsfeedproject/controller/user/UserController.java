@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,11 +59,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @RequestBody DeleteUserRequestDto dto, HttpServletRequest servletRequest) {
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@RequestBody DeleteUserRequestDto dto, HttpServletRequest request) {
 
-        userService.deleteUser(id, dto.getPassword());
-        HttpSession httpSession = servletRequest.getSession(false);
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        userService.deleteUser(loginUser.getUserId(), dto.getPassword());
+        HttpSession httpSession = request.getSession(false);
         if (httpSession != null) {
             httpSession.invalidate();
         }
