@@ -17,16 +17,16 @@ public class CommentResponseDto {
     //댓글 내용
     private final String comment;
 
-    private final LocalDateTime createdTime;
+    private final LocalDateTime createTime;
 
     @Setter
-    private LocalDateTime updatedTime;
+    private LocalDateTime updateTime;
 
-    public CommentResponseDto(Long id, String writer, String comment, LocalDateTime createdTime, LocalDateTime updatedTime) {
+    public CommentResponseDto(Long id, String writer, String comment, LocalDateTime createTime, LocalDateTime updateTime) {
         this.comment_Id = id;
         this.writer = writer;
         this.comment = comment;
-        this.createdTime = createdTime;
-        this.updatedTime = updatedTime;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
     }
 }

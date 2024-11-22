@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "delete_user")
+@Table(name = "delete_users")
 public class DeleteUser {
 
     @Id
