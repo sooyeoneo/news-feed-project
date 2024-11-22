@@ -1,10 +1,8 @@
 package com.example.newsfeedproject.controller.post;
 
 import com.example.newsfeedproject.dto.login.LoginResponseDto;
-import com.example.newsfeedproject.dto.post.CreatePostRequestDto;
-import com.example.newsfeedproject.dto.post.FriendPostsReqestDto;
-import com.example.newsfeedproject.dto.post.PostResponseDto;
-import com.example.newsfeedproject.dto.post.UpdatePostRequestDto;
+import com.example.newsfeedproject.dto.post.*;
+import com.example.newsfeedproject.entity.like.Like;
 import com.example.newsfeedproject.service.post.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -97,14 +95,13 @@ public class PostController {
 
     // 좋아요 기능
     @PostMapping("/{id}")
-    public ResponseEntity<Void> likePost(@PathVariable Long id, HttpServletRequest request){
-
+    public ResponseEntity<LikePostResponseDto> likePost(@PathVariable Long id, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
 
         postService.likePost(loginUser.getUserId(), id);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(likePostResponseDto, HttpStatus.OK);
 
     }
 }
