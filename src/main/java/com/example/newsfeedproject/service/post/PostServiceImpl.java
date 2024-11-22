@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService{
 
         postRepository.save(post);
 
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime());
+        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike());
     }
 
     //피드 조회
@@ -45,7 +45,7 @@ public class PostServiceImpl implements PostService{
 
         Page<Post> posts = postRepository.findAll(pageable);
 
-        return posts.map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime()));
+        return posts.map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike()));
     }
 
     //포스트를 친구조회 (친구인지 확인 후 친구의 게시글 출력)
@@ -60,19 +60,15 @@ public class PostServiceImpl implements PostService{
         User friendUser = userRepository.findUserByIdOrElseThrow(friendId);
         Page<Post> friendPosts = postRepository.findByUser(friendUser, pageable);
 
-        return friendPosts.map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime()));
+        return friendPosts.map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike()));
     }
 
     //좋아요 작업 수행 (이전에 좋아요 하지 않은 사용자라면 좋아요, 이전에 좋아요 했다면 취소)
     @Override
+    @Transactional
     public void likePost(Long userId, Long postId) {
         boolean already = likeRepository.existsByUserIdAndPostId(userId,postId);
         Post post = postRepository.findPostByIdOrElseThrow(postId);
-
-        //글이 존재하지 않으면 예외처리
-        if (post == null){
-            throw new RuntimeException("존재하지 않는 게시물입니다.");
-        }
 
         //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
         if(already) {
@@ -94,7 +90,7 @@ public class PostServiceImpl implements PostService{
         Post post = postRepository.findPostByIdOrElseThrow(id);
         post.updatePost(title, contents);
 
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime());
+        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike());
     }
 
     //피드 삭제
