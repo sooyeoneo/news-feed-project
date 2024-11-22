@@ -1,6 +1,7 @@
 package com.example.newsfeedproject.service.comment;
 
 import com.example.newsfeedproject.dto.comment.CommentResponseDto;
+import com.example.newsfeedproject.dto.comment.LikeCommentResponseDto;
 import org.springframework.data.domain.Page;
 
 public interface CommentService {
@@ -13,5 +14,5 @@ public interface CommentService {
 
     void deleteComment(Long userId, Long commentId);
 
-    void likeComment(Long userId, Long commentId);
+    LikeCommentResponseDto likeComment(Long userId, Long commentId);
 }
