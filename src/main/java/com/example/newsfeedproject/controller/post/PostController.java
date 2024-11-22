@@ -100,9 +100,9 @@ public class PostController {
     public ResponseEntity<Void> likePost(@PathVariable Long id, HttpServletRequest request){
 
         HttpSession session = request.getSession(false);
-        LoginResponseDto loginResponseDto = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
 
-        postService.likePost(loginResponseDto.getUserId(), id);
+        postService.likePost(loginUser.getUserId(), id);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
