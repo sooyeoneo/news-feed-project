@@ -5,7 +5,7 @@ import com.example.newsfeedproject.dto.friend.*;
 import java.util.List;
 
 public interface FriendService {
-    SendFriendResponseDto sendFriend(SendFriendRequestDto sendFriendRequestDto);
-    void deleteFriend(DeleteFriendRequestDto deleteFriendRequestDto);
-    void acceptFriend(AcceptFriendRequestDto acceptFriendRequestDto);
+    SendFriendResponseDto sendFriend(Long userId, Long toUserId);
+    void deleteFriend(Long userId, Long toUserId);
+    void acceptFriend(Long userId, Long fromUserId);
 }

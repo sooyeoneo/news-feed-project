@@ -62,12 +62,11 @@ public class UserServiceImpl implements UserService {
         findUser.updatePassword(passwordEncoder.encode(newPassword));
     }
 
-    // 유저 삭제. 게시물이 남아있는 경우 유저 삭제를 실행하지 않음(예외 처리)
+    // 유저 삭제
     public void deleteUser(Long id, String password) {
+
         User findUser = userRepository.findUserByIdOrElseThrow(id);
-        if (!postRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자와 연관된 게시물이 존재합니다.");
-        }
+
         userRepository.delete(findUser);
     }
 }

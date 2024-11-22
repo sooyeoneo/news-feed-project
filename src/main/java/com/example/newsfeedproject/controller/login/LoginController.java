@@ -3,6 +3,7 @@ package com.example.newsfeedproject.controller.login;
 import com.example.newsfeedproject.dto.login.LoginRequestDto;
 import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import com.example.newsfeedproject.dto.user.UserResponseDto;
+import com.example.newsfeedproject.service.login.LoginService;
 import com.example.newsfeedproject.service.login.LoginServiceImpl;
 import com.example.newsfeedproject.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,19 +24,16 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final UserService userService;
-    private final LoginServiceImpl loginServiceImpl;
+    private final LoginService loginService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(
             @Valid @RequestBody LoginRequestDto loginRequestDto,
             HttpServletRequest servletRequest
     ) {
-        LoginResponseDto loginResponseDto = loginServiceImpl.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
-        String email = loginResponseDto.getUserName();
+        LoginResponseDto loginResponseDto = loginService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
-        HttpSession httpSession = servletRequest.getSession(true);
-        LoginResponseDto loginUser = loginServiceImpl.findUserByEmail(email);
+        HttpSession httpSession = servletRequest.getSession();
 
         httpSession.setAttribute("LOGIN_USER", loginResponseDto);
 

@@ -21,15 +21,15 @@ public class FriendServiceImple implements FriendService{
 
     //친구신청 중복검사필요 (중복된 친구신청 x)
     @Override
-    public SendFriendResponseDto sendFriend(SendFriendRequestDto dto) {
+    public SendFriendResponseDto sendFriend(Long userId, Long toUserId) {
 
-        if (friendRepository.existsByFromUserIdAndToUserIdAndAreWeFriend(dto.getFromUserId(), dto.getToUserId(), true)) {
+        if (friendRepository.existsByFromUserIdAndToUserIdAndAreWeFriend(userId, toUserId, true)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"이미 사용자와 친구 관계입니다");
         }
 
-        User fromUser = userRepository.findById(dto.getFromUserId())
+        User fromUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "FromUser not found"));
-        User toUser = userRepository.findById(dto.getToUserId())
+        User toUser = userRepository.findById(toUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ToUser not found"));
 
         Friend friendRequest = new Friend(fromUser, toUser, false);  // 요청 보내는 사람 -> 받는 사람
@@ -38,15 +38,15 @@ public class FriendServiceImple implements FriendService{
         friendRepository.save(friendRequest);
         friendRepository.save(reverseRequest);
 
-        return new SendFriendResponseDto(dto.getToUserId(), dto.getFromUserId());
+        return new SendFriendResponseDto(toUserId, userId);
     }
 
     @Override
-    public void acceptFriend(AcceptFriendRequestDto dto) {
+    public void acceptFriend(Long userId, Long fromUserId) {
         //요청 보내는 사람 -> 받는 사람을 DB에서 찾아 friend에 저장
-        Friend friend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getFromUserId(),dto.getToUserId(),false);
+        Friend friend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(fromUserId,userId,false);
         //요청 받는 사람 -> 보내는 사람 DB에서 찾아 reversFriend에 저장 (역방향)
-        Friend reverseFriend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getToUserId(), dto.getFromUserId(), false);
+        Friend reverseFriend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(userId, fromUserId, false);
         if (friend == null || reverseFriend == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"친구신청이 존재하지 않습니다.");    //존재하지 않을 시 예외처리
         }
@@ -59,9 +59,9 @@ public class FriendServiceImple implements FriendService{
     }
 
     @Override
-    public void deleteFriend(DeleteFriendRequestDto dto) {
-        Friend friend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getFromUserId(),dto.getToUserId(),true);
-        Friend reverseFriend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(dto.getToUserId(), dto.getFromUserId(), true);
+    public void deleteFriend(Long userId, Long toUserId) {
+        Friend friend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(userId,toUserId,true);
+        Friend reverseFriend = friendRepository.findByFromUserIdAndToUserIdAndAreWeFriend(toUserId, userId, true);
 
         if (friend == null || reverseFriend == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"친구가 존재하지 않습니다");    //존재하지 않을 시 예외처리

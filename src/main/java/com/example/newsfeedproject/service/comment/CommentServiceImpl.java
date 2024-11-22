@@ -23,9 +23,9 @@ public class CommentServiceImpl implements CommentService {
     private final PostRepository postRepository;
 
     //댓글 생성
-    public CommentResponseDto createComment(Long postId, String userName, String comment) {
+    public CommentResponseDto createComment(Long postId, Long userId, String comment) {
 
-        User user = userRepository.findUserByUserNameOrElseThrow(userName);
+        User user = userRepository.findUserByIdOrElseThrow(userId);
         Post post = postRepository.findPostByIdOrElseThrow(postId);
 
         Comment setcomment = new Comment(comment);
@@ -36,6 +36,7 @@ public class CommentServiceImpl implements CommentService {
 
         return new CommentResponseDto(
                 setcomment.getId(),
+                setcomment.getUser().getUserName(),
                 setcomment.getComment(),
                 setcomment.getCreateTime(),
                 setcomment.getUpdateTime());
@@ -48,24 +49,42 @@ public class CommentServiceImpl implements CommentService {
 
         Page<Comment> commentPage = commentRepository.findCommentsByPostId(postId, pageable);
 
-        return commentPage.map(comment -> new CommentResponseDto(comment.getId(), comment.getComment(), comment.getCreateTime(), comment.getUpdateTime()));
+        return commentPage.map(comment -> new CommentResponseDto(
+                comment.getId(),
+                comment.getUser().getUserName(),
+                comment.getComment(),
+                comment.getCreateTime(),
+                comment.getUpdateTime()));
     }
 
     //댓글 수정
     @Transactional
-    public CommentResponseDto updateComment(Long id, String comment) {
+    public CommentResponseDto updateComment(Long userId, Long commentId, String comment) {
 
-        Comment setcomment = commentRepository.findCommnetByCommentId(id);
+        Comment setcomment = commentRepository.findCommentByCommentIdOrElseThrow(commentId);
+
+        if(!setcomment.getUser().getId().equals(userId) && !setcomment.getPost().getUser().getId().equals(userId)) {
+            throw new RuntimeException("피드의 작성자나 댓글의 작성자만 수정할 수 있습니다.");
+        }
         setcomment.updateComment(comment);
 
-        return new CommentResponseDto(setcomment.getId(), setcomment.getComment(), setcomment.getCreateTime(), setcomment.getUpdateTime());
+        return new CommentResponseDto(
+                setcomment.getId(),
+                setcomment.getUser().getUserName(),
+                setcomment.getComment(),
+                setcomment.getCreateTime(),
+                setcomment.getUpdateTime());
     }
 
     //댓글 삭제
-    public void deleteComment(Long id) {
+    public void deleteComment(Long userId, Long commentId) {
 
-        Comment comment = commentRepository.findCommnetByCommentId(id);
+        Comment setcomment = commentRepository.findCommentByCommentIdOrElseThrow(userId);
 
-        commentRepository.delete(comment);
+        if(!setcomment.getUser().getId().equals(userId) && !setcomment.getPost().getUser().getId().equals(userId)) {
+            throw new RuntimeException("피드의 작성자나 댓글의 작성자만 수정할 수 있습니다.");
+        }
+
+        commentRepository.delete(setcomment);
     }
 }

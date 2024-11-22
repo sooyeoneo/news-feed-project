@@ -13,8 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class PostServiceImpl implements PostService{
     private final FriendRepository friendRepository;
     private final LikeRepository likeRepository;
 
-    //피드 생성
+    //포스트 생성
     public PostResponseDto createPost(String userName, String title, String contents) {
 
         User user = userRepository.findUserByUserNameOrElseThrow(userName);
@@ -35,17 +37,31 @@ public class PostServiceImpl implements PostService{
 
         postRepository.save(post);
 
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike());
+        return new PostResponseDto(
+                post.getId(),
+                post.getUser().getUserName(),
+                post.getTitle(),
+                post.getContents(),
+                post.getCountLike(),
+                post.getCreateTime(),
+                post.getUpdateTime());
     }
 
-    //피드 조회
+    //포스트 조회
     public Page<PostResponseDto> findAllPost(int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createTime"));
 
         Page<Post> posts = postRepository.findAll(pageable);
 
-        return posts.map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike()));
+        return posts.map(post -> new PostResponseDto(
+                post.getId(),
+                post.getUser().getUserName(),
+                post.getTitle(),
+                post.getContents(),
+                post.getCountLike(),
+                post.getCreateTime(),
+                post.getUpdateTime()));
     }
 
     //포스트를 친구조회 (친구인지 확인 후 친구의 게시글 출력)
@@ -60,7 +76,14 @@ public class PostServiceImpl implements PostService{
         User friendUser = userRepository.findUserByIdOrElseThrow(friendId);
         Page<Post> friendPosts = postRepository.findByUser(friendUser, pageable);
 
-        return friendPosts.map(post -> new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike()));
+        return friendPosts.map(post -> new PostResponseDto(
+                post.getId(),
+                post.getUser().getUserName(),
+                post.getTitle(),
+                post.getContents(),
+                post.getCountLike(),
+                post.getCreateTime(),
+                post.getUpdateTime()));
     }
 
     //좋아요 작업 수행 (이전에 좋아요 하지 않은 사용자라면 좋아요, 이전에 좋아요 했다면 취소)
@@ -70,8 +93,12 @@ public class PostServiceImpl implements PostService{
         boolean already = likeRepository.existsByUserIdAndPostId(userId,postId);
         Post post = postRepository.findPostByIdOrElseThrow(postId);
 
-        //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
-        if(already) {
+        //게시물의 작성자는 좋아요를 누를 수 없게 생성
+        if(post.getUser().getId().equals(userId)) {
+            throw new RuntimeException("게시물의 작성자는 좋아요를 누를 수 없습니다.");
+        }
+
+        if(already) {       //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
             likeRepository.deleteByUserIdAndPostId(userId, postId);
             post.minusLike();
             postRepository.save(post);
@@ -83,20 +110,37 @@ public class PostServiceImpl implements PostService{
         }
     }
 
-    //피드 수정
+    //포스트 수정
     @Transactional
-    public PostResponseDto updatePost(Long id, String title, String contents) {
+    public PostResponseDto updatePost(Long userId, Long id, String title, String contents) {
 
         Post post = postRepository.findPostByIdOrElseThrow(id);
+
+        //세션값 검증
+        if(!post.getUser().getId().equals(userId)) {
+            throw new RuntimeException("작성자만 수정할 수 있습니다.");
+        }
         post.updatePost(title, contents);
 
-        return new PostResponseDto(post.getId(), post.getTitle(), post.getContents(), post.getCreateTime(), post.getUpdateTime(),post.getCountLike());
+        return new PostResponseDto(
+                post.getId(),
+                post.getUser().getUserName(),
+                post.getTitle(),
+                post.getContents(),
+                post.getCountLike(),
+                post.getCreateTime(),
+                post.getUpdateTime());
     }
 
-    //피드 삭제
-    public void deletePost(Long id) {
+    //포스트 삭제
+    public void deletePost(Long userId, Long id) {
 
         Post post = postRepository.findPostByIdOrElseThrow(id);
+
+        //세션값 검증
+        if(!post.getUser().getId().equals(userId)) {
+            throw new RuntimeException("작성자만 삭제할 수 있습니다.");
+        }
 
         postRepository.delete(post);
     }

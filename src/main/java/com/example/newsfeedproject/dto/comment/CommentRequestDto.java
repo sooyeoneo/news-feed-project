@@ -5,12 +5,11 @@ import lombok.Getter;
 @Getter
 public class CommentRequestDto {
 
-    private final String userName;
+    private String comment;
 
-    private final String comment;
+    public CommentRequestDto() {}
 
-    public CommentRequestDto(String userName, String comment) {
-        this.userName = userName;
+    public CommentRequestDto(String comment) {
         this.comment = comment;
     }
 }
