@@ -30,7 +30,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto) {

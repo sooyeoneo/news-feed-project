@@ -2,17 +2,13 @@ package com.example.newsfeedproject.controller.friend;
 
 import com.example.newsfeedproject.dto.friend.*;
 import com.example.newsfeedproject.dto.login.LoginResponseDto;
-import com.example.newsfeedproject.entity.friend.Friend;
 import com.example.newsfeedproject.service.friend.FriendService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

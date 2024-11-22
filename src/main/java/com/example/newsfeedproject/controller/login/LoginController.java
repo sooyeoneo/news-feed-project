@@ -2,10 +2,7 @@ package com.example.newsfeedproject.controller.login;
 
 import com.example.newsfeedproject.dto.login.LoginRequestDto;
 import com.example.newsfeedproject.dto.login.LoginResponseDto;
-import com.example.newsfeedproject.dto.user.UserResponseDto;
 import com.example.newsfeedproject.service.login.LoginService;
-import com.example.newsfeedproject.service.login.LoginServiceImpl;
-import com.example.newsfeedproject.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.Serializable;
 
 @RestController
 @RequestMapping("/")

@@ -4,7 +4,6 @@ import com.example.newsfeedproject.config.PasswordEncoder;
 import com.example.newsfeedproject.dto.user.SignUpResponseDto;
 import com.example.newsfeedproject.dto.user.UserResponseDto;
 import com.example.newsfeedproject.entity.user.User;
-import com.example.newsfeedproject.repository.post.PostRepository;
 import com.example.newsfeedproject.repository.user.UserRepository;
 import com.example.newsfeedproject.validation.PasswordValidation;
 import jakarta.transaction.Transactional;
@@ -22,7 +21,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordValidation passwordValidation;
-    private final PostRepository postRepository;
 
     //유저 생성
     public SignUpResponseDto signup(String username, String email, String password, String age) {
