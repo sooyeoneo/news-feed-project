@@ -17,7 +17,7 @@ import lombok.Setter;
 
 @Getter
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 public class Comment extends BaseEntity {
 
     @Id
