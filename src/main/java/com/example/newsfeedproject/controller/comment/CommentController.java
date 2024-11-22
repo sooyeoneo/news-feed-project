@@ -69,4 +69,16 @@ public class CommentController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //좋아요 기능
+    @PostMapping("/comments/{id}")
+    public ResponseEntity<Void> likeComment(@PathVariable Long id, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        commentService.likeComment(loginUser.getUserId(), id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

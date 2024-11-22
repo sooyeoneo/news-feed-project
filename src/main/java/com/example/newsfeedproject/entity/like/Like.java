@@ -14,11 +14,20 @@ public class Like {
 
     private Long userId;
     private Long postId;
+    private Long commentId;
+
 
     public Like(){}
 
-    public Like(Long userId, Long postId){
-        this.userId = userId;
+    public Like postLike(Long userId, Long postId) {
         this.postId = postId;
+        this.userId = userId;
+        return this;
+    }
+
+    public Like commentLike(Long userId, Long commentId) {
+        this.commentId = commentId;
+        this.userId = userId;
+        return this;
     }
 }

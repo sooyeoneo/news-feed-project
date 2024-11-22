@@ -97,9 +97,9 @@ public class PostController {
     @PostMapping("/{id}")
     public ResponseEntity<LikePostResponseDto> likePost(@PathVariable Long id, HttpServletRequest request){
         HttpSession session = request.getSession(false);
-        LoginResponseDto loginResponseDto = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
 
-        LikePostResponseDto likePostResponseDto = postService.likePost(loginResponseDto.getUserId(), id);
+        postService.likePost(loginUser.getUserId(), id);
 
         return new ResponseEntity<>(likePostResponseDto, HttpStatus.OK);
 
