@@ -4,6 +4,7 @@ import com.example.newsfeedproject.entity.BaseEntity;
 import com.example.newsfeedproject.entity.post.Post;
 import com.example.newsfeedproject.entity.user.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,12 +26,12 @@ public class Comment extends BaseEntity {
     private String comment;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 

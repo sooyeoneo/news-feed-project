@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class UserResponseDto {
 
-    private final Long id;
+    private final Long userId;
 
     private final String userName;
 
@@ -15,7 +15,7 @@ public class UserResponseDto {
     private final String age;
 
     public UserResponseDto(Long id, String userName, String email, String age) {
-        this.id = id;
+        this.userId = id;
         this.userName = userName;
         this.email = email;
         this.age = age;

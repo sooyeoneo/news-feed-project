@@ -9,9 +9,9 @@ public interface PostService {
 
     Page<PostResponseDto> findAllPost(int page, int size);
 
-    PostResponseDto updatePost(Long id, String title, String contents);
+    PostResponseDto updatePost(Long userId, Long id, String title, String contents);
 
-    void deletePost(Long id);
+    void deletePost(Long userId, Long id);
 
     Page<PostResponseDto> findFriendPost(int page, int size, Long userId, Long friendId);
 

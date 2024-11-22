@@ -2,7 +2,10 @@ package com.example.newsfeedproject.controller.comment;
 
 import com.example.newsfeedproject.dto.comment.CommentRequestDto;
 import com.example.newsfeedproject.dto.comment.CommentResponseDto;
+import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import com.example.newsfeedproject.service.comment.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,9 +22,13 @@ public class CommentController {
     @PostMapping("/comments")
     public ResponseEntity<CommentResponseDto> createComment(
             @PathVariable("post_id") Long postId,
-            @RequestBody CommentRequestDto dto){
+            @RequestBody CommentRequestDto dto,
+            HttpServletRequest request) {
 
-        CommentResponseDto commentResponseDto = commentService.createComment(postId, dto.getUserName(), dto.getComment());
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        CommentResponseDto commentResponseDto = commentService.createComment(postId, loginUser.getUserId(), dto.getComment());
 
         return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
     }
@@ -38,19 +45,27 @@ public class CommentController {
         return new ResponseEntity<>(commentResponseDtoPage, HttpStatus.OK);
     }
 
-    @PatchMapping("/comments/{id}")
+    @PutMapping("/comments/{id}")
     public ResponseEntity<CommentResponseDto> updateComment(
             @PathVariable Long id,
-            @RequestBody CommentRequestDto dto){
+            @RequestBody CommentRequestDto dto,
+            HttpServletRequest request) {
 
-        CommentResponseDto commentResponseDto = commentService.updateComment(id, dto.getComment());
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        CommentResponseDto commentResponseDto = commentService.updateComment(loginUser.getUserId(), id, dto.getComment());
 
         return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/comments/{id}")
-    public ResponseEntity<CommentResponseDto> deleteComment(@PathVariable Long id){
-        commentService.deleteComment(id);
+    public ResponseEntity<CommentResponseDto> deleteComment(@PathVariable Long id, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        commentService.deleteComment(loginUser.getUserId(), id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

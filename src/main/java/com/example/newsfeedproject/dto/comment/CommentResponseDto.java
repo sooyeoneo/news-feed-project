@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
 
     //댓글 id
-    private Long id;
+    private Long comment_Id;
+
+    //댓글 작성자
+    private String writer;
 
     //댓글 내용
     private String comment;
@@ -17,8 +20,9 @@ public class CommentResponseDto {
 
     private LocalDateTime updatedTime;
 
-    public CommentResponseDto(Long id, String comment, LocalDateTime createdTime, LocalDateTime updatedTime) {
-        this.id = id;
+    public CommentResponseDto(Long id, String writer, String comment, LocalDateTime createdTime, LocalDateTime updatedTime) {
+        this.comment_Id = id;
+        this.writer = writer;
         this.comment = comment;
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;
