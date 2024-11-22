@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
         Comment setcomment = commentRepository.findCommentByCommentIdOrElseThrow(commentId);
 
         if(!setcomment.getUser().getId().equals(userId) && !setcomment.getPost().getUser().getId().equals(userId)) {
-            throw new RuntimeException("피드의 작성자나 댓글의 작성자만 수정할 수 있습니다.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "피드의 작성자나 댓글의 작성자만 수정할 수 있습니다.");
         }
         setcomment.updateComment(comment);
 
@@ -82,7 +84,7 @@ public class CommentServiceImpl implements CommentService {
         Comment setcomment = commentRepository.findCommentByCommentIdOrElseThrow(userId);
 
         if(!setcomment.getUser().getId().equals(userId) && !setcomment.getPost().getUser().getId().equals(userId)) {
-            throw new RuntimeException("피드의 작성자나 댓글의 작성자만 수정할 수 있습니다.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "피드의 작성자나 댓글의 작성자만 삭제할 수 있습니다.");
         }
 
         commentRepository.delete(setcomment);

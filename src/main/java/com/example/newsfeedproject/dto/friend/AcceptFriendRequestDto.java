@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class AcceptFriendRequestDto {
-    private Long fromUserId;
+    private final Long fromUserId;
 
     public AcceptFriendRequestDto(Long fromUserId){
         this.fromUserId = fromUserId;
