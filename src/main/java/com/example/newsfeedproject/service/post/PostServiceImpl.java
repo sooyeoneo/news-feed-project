@@ -93,6 +93,11 @@ public class PostServiceImpl implements PostService{
     public LikePostResponseDto likePost(Long userId, Long postId) {
         boolean already = likeRepository.existsByUserIdAndPostId(userId,postId);
         Post post = postRepository.findPostByIdOrElseThrow(postId);
+        User user = post.getUser();
+
+        if(userId == user.getId()){
+            throw new RuntimeException("자기 자신의 게시글에는 좋아요 할 수 없습니다");
+        }
 
         //게시물의 작성자는 좋아요를 누를 수 없게 생성
         if(post.getUser().getId().equals(userId)) {
