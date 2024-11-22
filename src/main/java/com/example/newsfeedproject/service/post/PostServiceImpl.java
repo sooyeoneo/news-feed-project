@@ -69,6 +69,11 @@ public class PostServiceImpl implements PostService{
     public void likePost(Long userId, Long postId) {
         boolean already = likeRepository.existsByUserIdAndPostId(userId,postId);
         Post post = postRepository.findPostByIdOrElseThrow(postId);
+        User user = post.getUser();
+
+        if(userId == user.getId()){
+            throw new RuntimeException("자기 자신의 게시글에는 좋아요 할 수 없습니다");
+        }
 
         //already가 true라면 이미 좋아요를 누른 사용자라고 판단, 좋아요 기록을 삭제하고 좋아요 카운트를 -1
         if(already) {
