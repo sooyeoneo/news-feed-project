@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    default Comment findCommnetByCommentId(Long id){
+    default Comment findCommentByCommentIdOrElseThrow(Long id){
         return findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다."));
     }
 

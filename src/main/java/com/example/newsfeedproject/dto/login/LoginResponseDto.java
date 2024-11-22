@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class LoginResponseDto {
 
-    private final String userName;
     private final Long userId;
+    private final String userName;
 
-    public LoginResponseDto(String userName, Long userId) {
-        this.userName = userName;
+    public LoginResponseDto(Long userId, String userName) {
         this.userId = userId;
+        this.userName = userName;
     }
 }

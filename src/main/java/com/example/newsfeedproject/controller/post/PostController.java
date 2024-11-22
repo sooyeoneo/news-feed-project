@@ -6,7 +6,6 @@ import com.example.newsfeedproject.dto.post.FriendPostsReqestDto;
 import com.example.newsfeedproject.dto.post.PostResponseDto;
 import com.example.newsfeedproject.dto.post.UpdatePostRequestDto;
 import com.example.newsfeedproject.service.post.PostService;
-import com.example.newsfeedproject.session.Const;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +30,14 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestBody CreatePostRequestDto dto){
+    public ResponseEntity<PostResponseDto> createPost(@RequestBody CreatePostRequestDto dto, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
         PostResponseDto postResponseDto =
                 postService.createPost(
-                        dto.getUserName(),
+                        loginUser.getUserName(),
                         dto.getTitle(),
                         dto.getContents()
                 );
@@ -42,6 +45,7 @@ public class PostController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.CREATED);
     }
 
+    //친구의 게시물을 우선적으로 보이도록 허용해야함
     @GetMapping
     public ResponseEntity<Page<PostResponseDto>> findAllPost(
             @RequestParam(defaultValue = "0") int page,
@@ -68,17 +72,23 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody UpdatePostRequestDto dto){
+    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody UpdatePostRequestDto dto, HttpServletRequest request) {
 
-        PostResponseDto postResponseDto = postService.updatePost(id, dto.getTitle(), dto.getContents());
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        PostResponseDto postResponseDto = postService.updatePost(loginUser.getUserId(), id, dto.getTitle(), dto.getContents());
 
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PostResponseDto> deletePost(@PathVariable Long id){
+    public ResponseEntity<PostResponseDto> deletePost(@PathVariable Long id, HttpServletRequest request) {
 
-        postService.deletePost(id);
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        postService.deletePost(loginUser.getUserId(), id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -86,8 +96,9 @@ public class PostController {
     // 좋아요 기능
     @PostMapping("/{id}")
     public ResponseEntity<Void> likePost(@PathVariable Long id, HttpServletRequest request){
+
         HttpSession session = request.getSession(false);
-        LoginResponseDto loginResponseDto = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
+        LoginResponseDto loginResponseDto = (LoginResponseDto) session.getAttribute("LOGIN_USER");
 
         postService.likePost(loginResponseDto.getUserId(), id);
 

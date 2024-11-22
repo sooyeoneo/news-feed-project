@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 public class SignUpResponseDto {
 
-    private final Long id;
+    private final Long userId;
 
     private final String userName;
 
@@ -18,7 +18,7 @@ public class SignUpResponseDto {
     private final LocalDateTime createTime;
 
     public SignUpResponseDto(Long id, String userName, String email, String age, LocalDateTime createTime) {
-        this.id = id;
+        this.userId = id;
         this.userName = userName;
         this.email = email;
         this.age = age;

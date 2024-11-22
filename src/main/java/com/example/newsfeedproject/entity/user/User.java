@@ -1,15 +1,20 @@
 package com.example.newsfeedproject.entity.user;
 
 import com.example.newsfeedproject.entity.BaseEntity;
-import com.example.newsfeedproject.entity.friend.Friend;
+import com.example.newsfeedproject.entity.comment.Comment;
 import com.example.newsfeedproject.entity.post.Post;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -31,6 +36,12 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String age;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public User() {}
 

@@ -1,6 +1,7 @@
 package com.example.newsfeedproject.controller.user;
 
 import com.example.newsfeedproject.config.PasswordEncoder;
+import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import com.example.newsfeedproject.dto.user.DeleteUserRequestDto;
 import com.example.newsfeedproject.dto.user.SignUpRequestDto;
 import com.example.newsfeedproject.dto.user.SignUpResponseDto;
@@ -29,7 +30,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto) {
@@ -50,10 +50,13 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UpdatePasswordRequestDto dto) {
+    @PatchMapping
+    public ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequestDto dto, HttpServletRequest request) {
 
-        userService.updatePassword(id, dto.getOldPassword(), dto.getNewPassword());
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
+        userService.updatePassword(loginUser.getUserId(), dto.getOldPassword(), dto.getNewPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
