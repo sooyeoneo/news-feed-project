@@ -1,5 +1,6 @@
 package com.example.newsfeedproject.service.post;
 
+import com.example.newsfeedproject.dto.post.LikePostResponseDto;
 import com.example.newsfeedproject.dto.post.PostResponseDto;
 import com.example.newsfeedproject.entity.like.Like;
 import com.example.newsfeedproject.entity.post.Post;
@@ -87,7 +88,7 @@ public class PostServiceImpl implements PostService{
     //좋아요 작업 수행 (이전에 좋아요 하지 않은 사용자라면 좋아요, 이전에 좋아요 했다면 취소)
     @Override
     @Transactional
-    public void likePost(Long userId, Long postId) {
+    public LikePostResponseDto likePost(Long userId, Long postId) {
         boolean already = likeRepository.existsByUserIdAndPostId(userId,postId);
         Post post = postRepository.findPostByIdOrElseThrow(postId);
 
@@ -106,6 +107,8 @@ public class PostServiceImpl implements PostService{
             post.plusLike();
             postRepository.save(post);
         }
+
+        return new LikePostResponseDto(post.getCountLike());
     }
 
     //포스트 수정

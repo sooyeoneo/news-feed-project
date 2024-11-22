@@ -1,6 +1,8 @@
 package com.example.newsfeedproject.service.post;
 
+import com.example.newsfeedproject.dto.post.LikePostResponseDto;
 import com.example.newsfeedproject.dto.post.PostResponseDto;
+import com.example.newsfeedproject.entity.like.Like;
 import org.springframework.data.domain.Page;
 
 public interface PostService {
@@ -15,5 +17,5 @@ public interface PostService {
 
     Page<PostResponseDto> findFriendPost(int page, int size, Long userId, Long friendId);
 
-    void likePost(Long userId, Long postId);
+    LikePostResponseDto likePost(Long userId, Long postId);
 }
