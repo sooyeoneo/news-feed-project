@@ -1,6 +1,5 @@
 package com.example.newsfeedproject.controller.user;
 
-import com.example.newsfeedproject.config.PasswordEncoder;
 import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import com.example.newsfeedproject.dto.user.DeleteUserRequestDto;
 import com.example.newsfeedproject.dto.user.SignUpRequestDto;

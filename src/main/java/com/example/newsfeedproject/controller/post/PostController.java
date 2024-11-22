@@ -45,7 +45,6 @@ public class PostController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.CREATED);
     }
 
-    //친구의 게시물을 우선적으로 보이도록 허용해야함
     @GetMapping
     public ResponseEntity<Page<PostResponseDto>> findAllPost(
             @RequestParam(defaultValue = "0") int page,
@@ -57,16 +56,19 @@ public class PostController {
         return new ResponseEntity<>(postResponseDtoPage, HttpStatus.OK);
     }
 
-    //친구의 id, 유저의 id를 리퀘스트 바디로 받음 ( 로그인 기능 구현시 수정 )
     @GetMapping("/friends")
     public ResponseEntity<Page<PostResponseDto>> friendPost(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestBody FriendPostsReqestDto friendPostsReqestDto
+            @RequestBody FriendPostsReqestDto friendPostsReqestDto,
+            HttpServletRequest request
     ){
 
+        HttpSession session = request.getSession(false);
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+
         Page<PostResponseDto> friendPostsDto = postService.findFriendPost(
-                page,size,friendPostsReqestDto.getUserId(),friendPostsReqestDto.getFriendId());
+                page,size,loginUser.getUserId(),friendPostsReqestDto.getFriendId());
 
         return new ResponseEntity<>(friendPostsDto, HttpStatus.OK);
     }

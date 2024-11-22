@@ -5,9 +5,7 @@ import lombok.Getter;
 @Getter
 public class CommentRequestDto {
 
-    private String comment;
-
-    public CommentRequestDto() {}
+    private final String comment;
 
     public CommentRequestDto(String comment) {
         this.comment = comment;
