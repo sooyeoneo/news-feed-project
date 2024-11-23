@@ -2,6 +2,7 @@ package com.example.newsfeedproject.controller.comment;
 
 import com.example.newsfeedproject.dto.comment.CommentRequestDto;
 import com.example.newsfeedproject.dto.comment.CommentResponseDto;
+import com.example.newsfeedproject.dto.comment.LikeCommentResponseDto;
 import com.example.newsfeedproject.dto.login.LoginResponseDto;
 import com.example.newsfeedproject.service.comment.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,13 +73,13 @@ public class CommentController {
 
     //좋아요 기능
     @PostMapping("/comments/{id}")
-    public ResponseEntity<Void> likeComment(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<LikeCommentResponseDto> likeComment(@PathVariable Long id, HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
 
-        commentService.likeComment(loginUser.getUserId(), id);
+        LikeCommentResponseDto likeCommentResponseDto = commentService.likeComment(loginUser.getUserId(), id);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(likeCommentResponseDto, HttpStatus.OK);
     }
 }

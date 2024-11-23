@@ -25,12 +25,12 @@ public class CommentResponseDto {
     @Setter
     private LocalDateTime updateTime;
 
-    public CommentResponseDto(Long id, String writer, String comment, int commentLike, LocalDateTime createTime, LocalDateTime updatedTime) {
+    public CommentResponseDto(Long id, String writer, String comment, int commentLike, LocalDateTime createTime, LocalDateTime updateTime) {
         this.comment_Id = id;
         this.writer = writer;
         this.comment = comment;
         this.commentLike = commentLike;
         this.createTime = createTime;
-        this.updatedTime = updatedTime;
+        this.updateTime = updateTime;
     }
 }

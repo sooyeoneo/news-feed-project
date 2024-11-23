@@ -95,8 +95,8 @@ public class PostServiceImpl implements PostService{
         Post post = postRepository.findPostByIdOrElseThrow(postId);
         User user = post.getUser();
 
-        if(userId == user.getId()){
-            throw new RuntimeException("자기 자신의 게시글에는 좋아요 할 수 없습니다");
+        if(userId.equals(user.getId())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "자기 자신의 게시글에는 좋아요 할 수 없습니다");
         }
 
         //게시물의 작성자는 좋아요를 누를 수 없게 생성
