@@ -6,7 +6,7 @@ import com.example.newsfeedproject.entity.comment.Comment;
 import com.example.newsfeedproject.entity.like.Like;
 import com.example.newsfeedproject.entity.post.Post;
 import com.example.newsfeedproject.entity.user.User;
-import com.example.newsfeedproject.repository.LikeRepository;
+import com.example.newsfeedproject.repository.like.LikeRepository;
 import com.example.newsfeedproject.repository.comment.CommentRepository;
 import com.example.newsfeedproject.repository.post.PostRepository;
 import com.example.newsfeedproject.repository.user.UserRepository;

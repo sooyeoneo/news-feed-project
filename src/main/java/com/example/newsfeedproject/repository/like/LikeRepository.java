@@ -1,4 +1,4 @@
-package com.example.newsfeedproject.repository;
+package com.example.newsfeedproject.repository.like;
 
 import com.example.newsfeedproject.entity.like.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
