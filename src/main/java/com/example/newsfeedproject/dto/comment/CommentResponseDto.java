@@ -8,16 +8,16 @@ import java.time.LocalDateTime;
 @Getter
 public class CommentResponseDto {
 
-    //댓글 id
+    // 댓글 id
     private final Long comment_Id;
 
-    //댓글 작성자
+    // 댓글 작성자
     private final String writer;
 
-    //댓글 내용
+    // 댓글 내용
     private final String comment;
   
-    //댓글 좋아요 갯수
+    // 댓글 좋아요 갯수
     private final int commentLike;
   
     private final LocalDateTime createTime;

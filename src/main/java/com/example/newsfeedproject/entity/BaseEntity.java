@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@MappedSuperclass  //매핑정보만 상속받는 superclass라는 의미
+@MappedSuperclass  // 매핑 정보만 상속받는 superclass라는 의미
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
