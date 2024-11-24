@@ -151,5 +151,6 @@
 ------------
 ## 트러블 슈팅 🎯
 [뉴스피드 프로젝트 트러블 슈팅 - 박예진](https://velog.io/@qkrdpwls2002/24111924-%EC%A1%B0%EB%B3%84%EA%B3%BC%EC%A0%9C-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85)
+
 [뉴스피드 프로젝트 트러블 슈팅 - 허수연](https://sooyeoneo.tistory.com/73)
 
