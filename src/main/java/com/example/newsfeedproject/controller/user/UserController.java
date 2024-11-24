@@ -29,8 +29,10 @@ public class UserController {
 
     private final UserService userService;
 
+    // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto dto) {
+        // 회원 가입 서비스 호출
         SignUpResponseDto signUpResponseDto =
                 userService.signup(
                         dto.getUserName(),
@@ -39,36 +41,41 @@ public class UserController {
                         dto.getAge()
                 );
 
-        return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED); // 가입 결과 반환
     }
 
+    // 프로필 전체 조회
     @GetMapping
     public List<UserResponseDto> findAllUsers() {
 
-        return userService.findAllUsers();
+        return userService.findAllUsers(); // 사용자 목록 반환
     }
 
-    @PatchMapping
+    // 비밀번호 변경
+    @PatchMapping("{user_id}")
     public ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequestDto dto, HttpServletRequest request) {
 
-        HttpSession session = request.getSession(false);
-        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
+        HttpSession session = request.getSession(false); // 세션 가져옴
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER"); // 로그인된 사용자 정보 조회
 
+        // 비밀번호 변경 서비스 호출
         userService.updatePassword(loginUser.getUserId(), dto.getOldPassword(), dto.getNewPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // 프로필 삭제
     @DeleteMapping
     public ResponseEntity<Void> deleteUser(@RequestBody DeleteUserRequestDto dto, HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute("LOGIN_USER");
 
+        // 사용자 삭제 서비스 호출
         userService.deleteUser(loginUser.getUserId(), dto.getPassword());
         HttpSession httpSession = request.getSession(false);
         if (httpSession != null) {
-            httpSession.invalidate();
+            httpSession.invalidate(); // 세션 무효화
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
