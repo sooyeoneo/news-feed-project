@@ -14,7 +14,7 @@ public class PasswordValidation {
 
     public boolean isValidPassword(String password) {
         if(password == null){
-            return true;
+            return false;
         }
         return pattern.matcher(password).matches();
     }
