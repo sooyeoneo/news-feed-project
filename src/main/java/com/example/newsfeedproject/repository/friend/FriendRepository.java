@@ -3,6 +3,11 @@ package com.example.newsfeedproject.repository.friend;
 import com.example.newsfeedproject.entity.friend.Friend;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class FriendRepository extends JpaRepository<Friend, Long> {
+public interface FriendRepository extends JpaRepository<Friend, Long> {
 
+    boolean existsByFromUserIdAndToUserIdAndAreWeFriend(Long fromUserId, Long toUserId, boolean b);
+
+    Friend findByFromUserIdAndToUserIdAndAreWeFriend(Long fromUserId, Long toUserId, boolean b);
+
+    boolean existsByFromUserIdAndToUserId(Long userId, Long friendId);
 }
