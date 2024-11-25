@@ -154,3 +154,5 @@
 
 [뉴스피드 프로젝트 트러블 슈팅 - 허수연](https://sooyeoneo.tistory.com/73)
 
+[뉴스피드 프로젝트 트러블 슈팅 - 한승완](https://velog.io/@swhan98/%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0)
+
