@@ -1,42 +1,6 @@
 # news-feed-project 📱
 ## 친구들의 가장 최근 업데이트된 게시물을 볼 수 있는 페이지 만들기 🧑🏻‍💻
 
-## 팀원 👥
-
- |이름|Github|블로그|
- |------|------|------|
- |박예진 팀원|[hamuck](https://github.com/hamuck)|[velog](https://velog.io/@qkrdpwls2002/posts)|
- |한승완 팀원|[Dawnfeeling](https://github.com/Dawnfeeling)|[velog](https://velog.io/@swhan98/posts)|
- |허수연 팀장|[sooyeoneo](https://github.com/sooyeoneo)|[tistory](https://sooyeoneo.tistory.com/)|
-
-------------
-## WBS & Tasks ✍🏻
-### 박예진
-    1. 와이어프레임 (Figma)
-    2. API Notion, Postman 수정
-    3. 친구 관리 CRUD
-    4. 좋아요 기능
-    5. 예외처리 수정 
-    6. 트러블 슈팅 작성 : 발표 자료 추가
-    7. 발표자료 PPT
-### 한승완
-    1. API 설계 (Notion)
-    2. 뉴스피드 게시물 관리 CRUD
-    3. 프로필 관리 CRUD
-    4. 댓글 CRUD
-    5. 예외 처리 추가, 수정 
-    6. 코드 리팩토링
-    7. 시연 영상
-### 허수연
-    1. Github Repository 관리
-    2. 프로젝트 초기 설정 : 패키지, 클래스, 인터페이스 생성, entity
-    3. Postman 관리, 수정
-    4. ERD (도전 기능 포함)
-    5. 사용자 인증 Session
-    6. 예외처리 수정
-    7. 발표
- 
-------------
 ### **Lv 0. 목표 정하기! (Growth Mindset)**
 
 1. **데이터베이스와 ORM**
@@ -81,8 +45,9 @@
     - [X]  API명세서는 프로젝트 root(최상위) 경로의 `README.md` 에 첨부
       
         [Postman news-feed-project API 명세서](https://documenter.getpostman.com/view/39375040/2sAYBRFDdo)
-   
+  
 ---------------
+## 기능 구현 🖥  
 ### Lv 4. 본격적으로 백엔드 개발하기 
 - Spring 이용하여 본격적으로 서버를 개발하기
 - 구현하고자 하는 기능들을 JPA를 사용하여 어떻게 구현할 수 있을지 고민하기
@@ -95,14 +60,7 @@
     - 기능 단위 별 브랜치(feature)
   - 병합 순서는 대체로 이렇게 진행
     - feature → merge → develop → merge → main
-   
-### Lv 5. 테스트 및 버그 수정하기
-- 개발한 기능들이 제대로 작동하는지 테스트
-- Postman에서 서버 요청을 통한 실행 테스트
-- 그리고 버그나 오류를 찾아 수정하고, 사용성을 향상시킬 수 있는 부분이 있는지 찾아볼 것.
-
----------------
-## 기능 구현 🖥    
+  
 ### 1. 프로필 CRUD  `필수`
 - **프로필 생성기능 POST**
     - 고유 식별자, 이름, 이메일, 비밀번호, 나이
@@ -159,7 +117,6 @@
       - `사용자 아이디`와 `비밀번호`가 일치하지 않는 경우
       - 이미 탈퇴한 `사용자 아이디`인 경우 
 
-
 ### 4. 친구 CRUD  `필수`
 - **친구 생성 기능 POST**
     - 고유 식별자, userId
@@ -184,7 +141,48 @@
 - 사용자가 게시물이나 댓글에 좋아요를 남기거나 취소할 수 있다.
 - 본인이 작성한 게시물과 댓글에 좋아요를 남길 수 없다.
 - 같은 게시물에는 사용자당 한 번만 좋아요가 가능하다.
+---------------
+### Lv 5. 테스트 및 버그 수정하기
+- 개발한 기능들이 제대로 작동하는지 테스트
+- Postman에서 서버 요청을 통한 실행 테스트
+- 그리고 버그나 오류를 찾아 수정하고, 사용성을 향상시킬 수 있는 부분이 있는지 찾아볼 것.
 
+------------
+## 팀원 👥
+
+ |이름|Github|블로그|
+ |------|------|------|
+ |박예진 팀원|[hamuck](https://github.com/hamuck)|[velog](https://velog.io/@qkrdpwls2002/posts)|
+ |한승완 팀원|[Dawnfeeling](https://github.com/Dawnfeeling)|[velog](https://velog.io/@swhan98/posts)|
+ |허수연 팀장|[sooyeoneo](https://github.com/sooyeoneo)|[tistory](https://sooyeoneo.tistory.com/)|
+
+------------
+## WBS & Tasks ✍🏻
+### 박예진
+    1. 와이어프레임 (Figma)
+    2. API Notion, Postman 수정
+    3. 친구 관리 CRUD
+    4. 좋아요 기능
+    5. 예외처리 수정 
+    6. 트러블 슈팅 작성 : 발표 자료 추가
+    7. 발표자료 PPT
+### 한승완
+    1. API 설계 (Notion)
+    2. 뉴스피드 게시물 관리 CRUD
+    3. 프로필 관리 CRUD
+    4. 댓글 CRUD
+    5. 예외 처리 추가, 수정 
+    6. 코드 리팩토링
+    7. 시연 영상
+### 허수연
+    1. Github Repository 관리
+    2. 프로젝트 초기 설정 : 패키지, 클래스, 인터페이스 생성, entity
+    3. Postman 관리, 수정
+    4. ERD (도전 기능 포함)
+    5. 사용자 인증 Session
+    6. 예외처리 수정
+    7. 발표
+ 
 ------------
 ## 트러블 슈팅 🎯
 [뉴스피드 프로젝트 트러블 슈팅 - 박예진](https://velog.io/@qkrdpwls2002/24111924-%EC%A1%B0%EB%B3%84%EA%B3%BC%EC%A0%9C-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85)
