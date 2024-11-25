@@ -1,5 +1,42 @@
 # news-feed-project 📱
 ## 친구들의 가장 최근 업데이트된 게시물을 볼 수 있는 페이지 만들기 🧑🏻‍💻
+
+## 팀원 👥
+
+ |이름|Github|블로그|
+ |------|------|------|
+ |박예진 팀원|[hamuck](https://github.com/hamuck)|[velog](https://velog.io/@qkrdpwls2002/posts)|
+ |한승완 팀원|[Dawnfeeling](https://github.com/Dawnfeeling)|[velog](https://velog.io/@swhan98/posts)|
+ |허수연 팀장|[sooyeoneo](https://github.com/sooyeoneo)|[tistory](https://sooyeoneo.tistory.com/)|
+
+------------
+## WBS & Tasks ✍🏻
+### 박예진
+    1. 와이어프레임 (Figma)
+    2. API Notion, Postman 수정
+    3. 친구 관리 CRUD
+    4. 좋아요 기능
+    5. 예외처리 수정 
+    6. 트러블 슈팅 작성 : 발표 자료 추가
+    7. 발표자료 PPT
+### 한승완
+    1. API 설계 (Notion)
+    2. 뉴스피드 게시물 관리 CRUD
+    3. 프로필 관리 CRUD
+    4. 댓글 CRUD
+    5. 예외 처리 추가, 수정 
+    6. 코드 리팩토링
+    7. 시연 영상
+### 허수연
+    1. Github Repository 관리
+    2. 프로젝트 초기 설정 : 패키지, 클래스, 인터페이스 생성, entity
+    3. Postman 관리, 수정
+    4. ERD (도전 기능 포함)
+    5. 사용자 인증 Session
+    6. 예외처리 수정
+    7. 발표
+ 
+------------
 ### **Lv 0. 목표 정하기! (Growth Mindset)**
 
 1. **데이터베이스와 ORM**
