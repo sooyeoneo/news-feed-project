@@ -148,6 +148,10 @@
 - 그리고 버그나 오류를 찾아 수정하고, 사용성을 향상시킬 수 있는 부분이 있는지 찾아볼 것.
 
 ------------
+## 시연 영상
+[POSTMAN과 DB를 활용한 시연 영상](https://drive.google.com/file/d/1Xq0N24HhTUH6f5JJfm3GMNEzeEOG3c6s/view?usp=sharing)
+
+------------
 ## 팀원 👥
 
  |이름|Github|블로그|
